@@ -6,6 +6,7 @@ COPY package.json .
 
 RUN npm install
 
+#inspite of having bindmount, copy command is required because it's required in production
 COPY . ./
 
 EXPOSE 3000
