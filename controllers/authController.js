@@ -12,6 +12,7 @@ exports.signUp = async (req, res) => {
             password: hashpassword, 
         });
 
+        req.session.user = newUser;
         res.status(201).json({
             status: "success",
             data: {
@@ -20,8 +21,10 @@ exports.signUp = async (req, res) => {
 
         });
     } catch (e) {
+        console.error("Error during sign up:", e); // Log the error
         res.status(400).json({
             status: "fail",
+            message: e.message, // Return the error message
         });
         
     }
@@ -35,7 +38,7 @@ exports.login =  async (req, res) => {
         const user = await User.findOne({username});
 
         if (!user) {
-            res.status(404).json({
+            return res.status(404).json({
                status: 'fail',
                message: 'user not found' 
             });
@@ -44,7 +47,8 @@ exports.login =  async (req, res) => {
         const isCorrect = await bcrypt.compare(password, user.password);
 
         if(isCorrect) {
-            res.status(200).json({
+            req.session.user = user;
+            return res.status(200).json({
                 status: 'success'
             });
         } else {
@@ -56,9 +60,10 @@ exports.login =  async (req, res) => {
     } catch (e) {
         res.status(400).json({
             status: "fail",
+            message: e.message,
         });
         
     }    
 
 
-}
+};
