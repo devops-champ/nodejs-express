@@ -43,6 +43,7 @@ mongoose
     .then(() => console.log("Successfully connected to MongoDB"))
     .catch((e) => console.error(e));
 
+app.enable("trust proxy");
 app.use(
     session({
         store: redisStore,
@@ -50,7 +51,7 @@ app.use(
         cookie: {
             secure: false,
             httpOnly: true,
-            maxAge: 30000,
+            maxAge: 3000000,
         },
         resave: false,
         saveUninitialized: false,
@@ -59,8 +60,9 @@ app.use(
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
     res.send("<h2>Hello, I'm your Docker Captain</h2>");
+    console.log("loadbalacing from ngnix")
 });
 
 // localhost:3000/api/v1/post
