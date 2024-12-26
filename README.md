@@ -5,7 +5,7 @@
 - Environment-specific Configurations: Separate configurations for production and development environments.
 
 
-# Dockerized Full-Stack Application
+## Dockerized Full-Stack Application
 
 This repository demonstrates a containerized full-stack application setup using Docker. The stack includes:
 
